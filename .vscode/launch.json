@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Launch",
+            "type": "python",
+            "request": "launch",
+            "program": ".vscode/null.py",
+            "justMyCode": true,
+            "preLaunchTask": "startup",
+        },
+        {
+            "name": "Python: Attach",
+            "type": "python",
+            "request": "attach",
+            "port": 5678,
+            "justMyCode": true,
+            "preLaunchTask": "startup",
+        },
+    ]
+}
