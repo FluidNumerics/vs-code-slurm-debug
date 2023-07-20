@@ -32,6 +32,35 @@ The `Python : Attach` debug task accomplishes the following
 
 3. VSCode will attach to the debugpy instance running at `rcclive-c260-sm-0:3000`
 
+To get started, 
+
+1. Connect to the login node of the RCCLive cluster using the Remote Explorer extension of VSCode.
+
+2. Install the Microsoft Python extension for VSCode on the RCCLive login node.
+
+3. Install miniconda - accept the values for the default prompts.
+
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
+/bin/bash /tmp/miniconda.sh
+```
+
+4. Create a fresh environment, called vscode
+
+```
+conda create -n vscode python=3.9
+```
+
+5. Install debugpy
+
+```
+conda activate vscode
+pip install debugpy
+```
+
+6. Use the Run & Debug menu to run `Python: Attach`
+
+
 # Things that need to be cleaned up
 
 
@@ -43,3 +72,4 @@ The `Python : Attach` debug task accomplishes the following
 - Make the compute node configurable in the batch script creation process
 - Make the python script to run configurable in the batch script creation process
 - Cancel the Slurm job at the end of a debug session
+- Install miniconda system-wide on the rcclive cluster
