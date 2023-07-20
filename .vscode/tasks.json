@@ -6,5 +6,10 @@
             "type" : "shell",
             "command": "srun -n1 python ${file}",
        },
+       {
+        "label" : "launch-batch",
+        "type" : "shell",
+        "command": "/bin/bash .vscode/launch-batch.sh",
+   },
     ]
 }

@@ -13,9 +13,11 @@
             "name": "Python: Attach",
             "type": "python",
             "request": "attach",
-            "port": 5678,
-            "justMyCode": true,
-            "preLaunchTask": "startup",
+            "connect": {
+                "host": "rcclive-c260-sm-0",
+                "port": 3000
+            },
+            "preLaunchTask": "launch-batch"
         },
     ]
 }

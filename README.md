@@ -1,5 +1,7 @@
 # About
 
+
+## Python : Launch
 This is an example repository that allows the user to allocate SLURM resources for a python script upon pushing the "Run and Debug" button.
 
 Follow these steps to run the example script in this repository:
@@ -21,8 +23,23 @@ Output of `example.py`:
 ![Alt text](/readme/console_output.png)
 
 
+## Python : Attach
+The `Python : Attach` debug task accomplishes the following
+
+1. Runs the `launch-batch` prelaunch task (which runs `.vscode/launch-batch.sh`). This task will create a batch script and submit a batch job with `sbatch`. The batch script will activate a conda environment called `vscode` and then start `debugpy` to listen on `0.0.0.0:3000` from a compute node. The batch script is configured to hard-set the node that the job will run on ( here it is `rcclive-c260-sm-0`).
+
+2. Once the batch job starts, the `launch-batch.sh` script will exit to return control back to the vscode attach command
+
+3. VSCode will attach to the debugpy instance running at `rcclive-c260-sm-0:3000`
+
 # Things that need to be cleaned up
 
-- Remove dependency on `null.py` (probably by using attach process instead of of launch process)
 
+## Python : Launch
+- Remove dependency on `null.py` (probably by using attach process instead of of launch process)
 - Get the debugger to actually work, instead of just logging errors to console
+
+## Python : Attach
+- Make the compute node configurable in the batch script creation process
+- Make the python script to run configurable in the batch script creation process
+- Cancel the Slurm job at the end of a debug session
