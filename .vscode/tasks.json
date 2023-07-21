@@ -4,12 +4,12 @@
         {
             "label" : "startup",
             "type" : "shell",
-            "command": "srun -n1 python ${file}",
+            "command": "srun -n1 python ${relativeFile}",
        },
        {
         "label" : "launch-batch",
         "type" : "shell",
-        "command": "/bin/bash .vscode/launch-batch.sh",
+        "command": "/bin/bash .vscode/launch-batch.sh ${relativeFile}",
    },
     ]
 }

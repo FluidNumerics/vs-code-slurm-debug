@@ -5,6 +5,8 @@ TEMP_FILE="/tmp/vscode-sbatch-script.$JOB.slurm"
  
 echo "Temporary job file: $TEMP_FILE" # show file name
 
+echo "Current running file: $1" # show which script is being run
+
 cat >$TEMP_FILE << EOL
 #!/bin/bash
 #SBATCH --nodelist=rcclive-c260-sm-0
@@ -18,7 +20,7 @@ cat >$TEMP_FILE << EOL
 
 source \${HOME}/.bashrc
 conda activate vscode
-python -m debugpy --wait-for-client --listen 0.0.0.0:3000 ./example.py
+python -m debugpy --wait-for-client --listen 0.0.0.0:3000 ./$1
 
 EOL
  
