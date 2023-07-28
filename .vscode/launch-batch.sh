@@ -16,6 +16,7 @@ cat >$TEMP_FILE << EOL
 #SBATCH -o $JOBNAME.log                               
 #SBATCH -e $JOBNAME.log  
 #SBATCH --get-user-env  
+#SBATCH --exclusive
 
 python -m pip install debugpy
 python -m debugpy --wait-for-client --listen 0.0.0.0:3000 ./$1
