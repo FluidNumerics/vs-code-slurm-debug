@@ -1,3 +1,4 @@
 {
-    "cmake.configureOnOpen": false
+    "SLURM_SBATCH_FLAGS": "--partition=a2g1p --gres=gpu:1 --time=1:00:00",
+    "SOCAT_PORT": 3000
 }
