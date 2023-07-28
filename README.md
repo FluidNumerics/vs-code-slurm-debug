@@ -1,75 +1,27 @@
 # About
+This repository contains a .vscode subdirectory with
 
+* `settings.json` - A file for controlling the Slurm batch flags used to start your debug job and for setting the TCP port used to connect from the cluster login node to the Slurm compute node.
+* `launch.json` - File that defines the debug launch configurations
+* `tasks.json` - File that defines tasks, specifically those used for `preLaunchTasks` in the `launch.json`
+* `launch-batch.sh` - Script that creates a batch script, submits a batch job to start a debugpy server on a compute node, and waits for the job to start before returning control back to VSCode
+* `slurm-debug-connect.sh` - Script that sets up a TCP proxy connection between your `localhost:${config:SOCAT_PORT}` and the Slurm compute node's port 3000.
 
-## Python : Launch
-This is an example repository that allows the user to allocate SLURM resources for a python script upon pushing the "Run and Debug" button.
+## Slurm-Python
+This is an example repository that allows the user to allocate SLURM resources for a python script upon pushing the "Run and Debug" button. We are assuming that you are using the Python and Remote Explorer extensions and have a remote session in VSCode on a login node of an HPC cluster with the Slurm job scheduler.
 
 Follow these steps to run the example script in this repository:
 
-1. Make sure that your desired python file (e.g., `example.py`) is the file the is currently open in VS Code.
+1. Edit the `.vscode/settings.json` file to set the `SLURM_SBATCH_FLAGS` to define the partition and other parameters for submitting the batch job for your debug session. Additionally, set the `SOCAT_PORT` to a port that other users on your cluster are not using.
+2. Make sure that your desired python file (e.g., `example.py`) is the file the is currently open in VS Code.
+3. Navigate to the **Run and Debug** section on the sideby ![Alt text](/readme/run_and_debug.png)
+4. Select the `Slurm-Python` configuration .
+5. Hit the play button to run the file (or hit F5).
 
-2. Navigate to the **Run and Debug** section on the sideby ![Alt text](/readme/run_and_debug.png)
+Completing these steps will create a batch script and submit the batch job to the Slurm job scheduler. Once the job starts, the script will wait for the debugpy server on the compute node to start. Once the debugpy server starts, `socat` is used to set up a TCP proxy from the compute node (port 3000) to the login node of the cluster on the port set by `SOCAT_PORT` in `.vscode/settings.json`
 
-3. Select a configuration from the dropdown menu. ![Alt text](/readme/configurations.png)
-
-4. Hit the play button to run the file (or hit F5).
-
-Now, two terminals will open: **Python Debug Console** and **startup**. Any errors encountered in your Python file will be logged to the **startup** console.
-
-You should see this console hang for a bit; this is because the SLURM resources are being reserved. Then, you should see any text output (e.g., error logs) produced by your `.py` file. If an error is thrown by your Python script, you should see the following popup:
-![Alt text](/readme/vscode_error.png)
-
-Output of `example.py`:
-![Alt text](/readme/console_output.png)
-
-
-## Python : Attach
-The `Python : Attach` debug task accomplishes the following
-
-1. Runs the `launch-batch` prelaunch task (which runs `.vscode/launch-batch.sh`). This task will create a batch script and submit a batch job with `sbatch`. The batch script will activate a conda environment called `vscode` and then start `debugpy` to listen on `0.0.0.0:3000` from a compute node. The batch script is configured to hard-set the node that the job will run on ( here it is `rcclive-c260-sm-0`).
-
-2. Once the batch job starts, the `launch-batch.sh` script will exit to return control back to the vscode attach command
-
-3. VSCode will attach to the debugpy instance running at `rcclive-c260-sm-0:3000`
-
-To get started, 
-
-1. Connect to the login node of the RCCLive cluster using the Remote Explorer extension of VSCode.
-
-2. Install the Microsoft Python extension for VSCode on the RCCLive login node.
-
-3. Install miniconda - accept the values for the default prompts.
-
-```
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
-/bin/bash /tmp/miniconda.sh
-```
-
-4. Create a fresh environment, called vscode
-
-```
-conda create -n vscode python=3.9
-```
-
-5. Install debugpy
-
-```
-conda activate vscode
-pip install debugpy
-```
-
-6. Use the Run & Debug menu to run `Python: Attach`
 
 
 # Things that need to be cleaned up
 
-
-## Python : Launch
-- Remove dependency on `null.py` (probably by using attach process instead of of launch process)
-- Get the debugger to actually work, instead of just logging errors to console
-
-## Python : Attach
-- Make the compute node configurable in the batch script creation process
-- Make the python script to run configurable in the batch script creation process
-- Cancel the Slurm job at the end of a debug session
-- Install miniconda system-wide on the rcclive cluster
+- [**Taking all requests! Open an issue!**](https://github.com/FluidNumerics/vs-code-slurm-debug/issues/new)
